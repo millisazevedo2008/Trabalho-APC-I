@@ -90,3 +90,83 @@ int main() {
                 qtd_atual++;
                 printf("\n[SUCESSO] Filme cadastrado com sucesso!\n");
                 break;
+                // Bloco 2 por Camilla
+                case 2: // R - Listar (Read)
+                if (qtd_atual == 0) {
+                    printf("Aviso: Nenhum filme cadastrado no momento.\n");
+                } else {
+                    printf("\n--- LISTA DE FILMES ---\n");
+                    for (int i = 0; i < qtd_atual; i++) {
+                        printf("ID: %d | Titulo: %s | Ano: %d\n", 
+                               catalogo[i].id, catalogo[i].titulo, catalogo[i].ano);
+                    }
+                }
+                break;
+
+            case 3: // U - Atualizar (Update)
+                if (qtd_atual == 0) {
+                    printf("Erro: Nao ha registros para atualizar.\n");
+                } else {
+                    int busca_id, encontrado = -1;
+                    printf("Digite o ID do filme que deseja atualizar: ");
+                    scanf("%d", &busca_id);
+
+                    for (int i = 0; i < qtd_atual; i++) {
+                        if (catalogo[i].id == busca_id) {
+                            encontrado = i;
+                            break;
+                        }
+                    }
+
+                    if (encontrado != -1) {
+                        printf("Novo Titulo: ");
+                        while (getchar() != '\n');
+                        fgets(catalogo[encontrado].titulo, 50, stdin);
+                        catalogo[encontrado].titulo[strcspn(catalogo[encontrado].titulo, "\n")] = 0;
+                        printf("Novo Ano: ");
+                        scanf("%d", &catalogo[encontrado].ano);
+                        printf("Registro atualizado!\n");
+                    } else {
+                        printf("Erro: Filme com ID %d nao encontrado.\n", busca_id);
+                    }
+                }
+                break;
+
+            case 4: // D - Remover (Delete)
+                if (qtd_atual == 0) {
+                    printf("Erro: Nao ha registros para remover.\n");
+                } else {
+                    int rem_id, pos = -1;
+                    printf("Digite o ID do filme para remover: ");
+                    scanf("%d", &rem_id);
+
+                    for (int i = 0; i < qtd_atual; i++) {
+                        if (catalogo[i].id == rem_id) {
+                            pos = i;
+                            break;
+                        }
+                    }
+
+                    if (pos != -1) {
+                        for (int j = pos; j < qtd_atual - 1; j++) {
+                            catalogo[j] = catalogo[j + 1];
+                        }
+                        qtd_atual--;
+                        printf("Filme removido com sucesso!\n");
+                    } else {
+                        printf("Erro: Operacao em posicao inexistente (ID nao encontrado).\n");
+                    }
+                }
+                break;
+
+            case 0:
+                printf("Encerrando o programa...\n");
+                break;
+
+            default:
+                printf("Erro: Opcao invalida! Tente novamente.\n");
+        }
+    } while (opcao != 0);
+
+    return 0;
+} 
